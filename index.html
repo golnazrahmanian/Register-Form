@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>form</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="box">
+            <div class="part1">
+                <div class="button">
+                    <div class="signup"> sign up</div>
+                    <div class="login">log in</div>
+                </div>
+            </div>
+
+            <div class="part2a">
+                <h3 class="signtext">sign up for free</h3>
+            </div>
+
+            <div class="part2b">
+                <h3 class="logtext">welcome back!</h3>
+            </div>
+
+            <div class="part3a">
+                <form id="forma" onsubmit="myForm(event,'forma')" action="reg.php" name="forma">
+                    <input type="text" class="fname" name="fname" placeholder="firstname*">
+                    <input type="text" class="lname" name="lname" placeholder="lastname*">
+                    <input type="text" class="emaila" name="email" placeholder="email address*">
+                    <label style="color:white">error occured!</label>
+                    <input type="password" class="passworda" name="password" placeholder="password*">
+                    <label style="color:white">error occured!</label>
+                </form>
+            </div>
+            <div class="part3b">
+                <form id="formb" onsubmit="myForm(event,'formb')" action="reg.php" name="formb">
+                    <input type="text" class="emailb" name="email" placeholder="email address*">
+                    <label style="color:white">error occured!</label>
+                    <input type="password" class="passwordb" name="password" placeholder="password*">
+                    <label style="color:white">error occured!</label>
+                    <div class="forget">forget password?</div>
+                </form>
+            </div>
+            <div class="part4a">
+                <input type="submit" form="forma" class="buttona" value="get started" />
+            </div>
+            <div class="part4b">
+                <input type="submit" form="formb" class="buttonb" value="log in" />
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    let _signup = document.getElementsByClassName('signup')[0]
+    let _login = document.getElementsByClassName('login')[0]
+    let _part2a = document.getElementsByClassName('part2a')[0]
+    let _part2b = document.getElementsByClassName('part2b')[0]
+    let _part3a = document.getElementsByClassName('part3a')[0]
+    let _part3b = document.getElementsByClassName('part3b')[0]
+    let _part4a = document.getElementsByClassName('part4a')[0]
+    let _part4b = document.getElementsByClassName('part4b')[0]
+    let _inp = document.querySelectorAll('input')
+
+    _signup.style.backgroundColor = '#6fb17b'
+    _part2b.style.display = 'none'
+    _part3b.style.display = 'none'
+    _part4b.style.display = 'none'
+
+    _login.addEventListener('click', () => {
+        _signup.style.backgroundColor = ' #868484';
+        _login.style.backgroundColor = '#6fb17b';
+        _part2a.style.display = 'none'
+        _part2b.style.display = 'flex'
+        _part3a.style.display = 'none'
+        _part3b.style.display = 'flex'
+        _part4a.style.display = 'none'
+        _part4b.style.display = 'flex'
+
+    })
+
+    _signup.addEventListener('click', () => {
+        _login.style.backgroundColor = ' #868484';
+        _signup.style.backgroundColor = '#6fb17b';
+        _part2a.style.display = 'flex'
+        _part2b.style.display = 'none'
+        _part3a.style.display = 'flex'
+        _part3b.style.display = 'none'
+        _part4a.style.display = 'flex'
+        _part4b.style.display = 'none'
+
+    })
+    let flag = 0
+    let labels = document.querySelectorAll('label')
+    labels.forEach((val) => {
+        val.style.display = 'none'
+    })
+    function myForm(e, formname) {
+
+        let _email = document.forms[formname]['email'].value;
+        let _password = document.forms[formname]['password'].value;
+
+        if (
+            _email == null ||
+            _email == '' ||
+            (_email.search(/<script/)) >= 0 ||
+            (_email.search(/&lt;script/)) >= 0 ||
+            (_email.search(/script/)) >= 0
+        ) {
+            document.forms[formname]['email'].nextElementSibling.style.display = 'flex'
+            flag++
+        } else {
+            let temp = _email.match(/@/g)
+            if (
+                (temp == null) ||
+                (_email.search(/@/)) <= 2 ||
+                _email.length < 10 ||
+                (_email.search(/[~!)#$%^&(*/]/)) >= 0 ||
+                (_email.search(/\s+/)) >= 0
+            ) {
+                document.forms[formname]['email'].nextElementSibling.style.display = 'flex'
+                flag++
+            }
+        }
+
+        if (
+            _password == null ||
+            _password == '' ||
+            (_password.search(/<script/)) >= 0 ||
+            (_password.search(/&lt;script/)) >= 0 ||
+            (_password.search(/script/)) >= 0
+        ) {
+            document.forms[formname]['password'].nextElementSibling.style.display = 'flex'
+            flag++
+        } else {
+            if (
+                _password.search(/[0-9]/) == -1 ||
+                _password.search(/[a-z]/) == -1 ||
+                _password.search(/[A-Z]/) == -1 ||
+                _password.search(/[~!@#$%^&*()_+]/) == -1
+            ) {
+                document.forms[formname]['password'].nextElementSibling.style.display = 'flex'
+                flag++
+            }
+        }
+
+        if (flag > 0) {
+            e.preventDefault()
+        }
+
+    }
+</script>
+
+</html>
